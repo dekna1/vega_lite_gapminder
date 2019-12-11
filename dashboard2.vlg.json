@@ -1,0 +1,158 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "title": "Fertility, 1964-2012",
+  "data": {
+    "url": "https://raw.githubusercontent.com/EmmanuelP89/DataVisualisation_CW2/master/gapminder.csv"
+  },
+  "transform": [
+    {
+      "aggregate": [
+        {
+          "op": "mean",
+          "field": "fertility",
+          "as": "Fertility"
+        }
+      ],
+      "groupby": [
+        "year",
+        "region"
+      ]
+    }
+  ],
+  "vconcat": [
+    {
+      "encoding": {
+        "color": {
+          "condition": {
+            "field": "region",
+            "scale": {
+              "range": [
+                "#ff6600",
+                "#00ff00",
+                "#e6e600",
+                "#1f77b4",
+                "#9467bd",
+                "#ff0000"
+              ]
+            },
+            "selection": "click",
+            "type": "nominal"
+          },
+          "value": "lightgray"
+        },
+        "x": {
+          "aggregate": "mean",
+          "field": "Fertility",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              7
+            ]
+          }
+        },
+        "y": {
+          "title": "Region",
+          "field": "region",
+          "type": "nominal",
+          "sort": "-x"
+        }
+      },
+      "width": 800,
+      "mark": "bar",
+      "selection": {
+        "click": {
+          "encodings": [
+            "color"
+          ],
+          "type": "multi"
+        }
+      },
+      "transform": [
+        {
+          "filter": {
+            "selection": "brush"
+          }
+        }
+      ]
+    },
+    {
+      "encoding": {
+        "color": {
+          "condition": {
+            "title": "Region",
+            "field": "region",
+            "scale": {
+              "range": [
+                "#ff6600",
+                "#00ff00",
+                "#e6e600",
+                "#1f77b4",
+                "#9467bd",
+                "#ff0000"
+              ]
+            },
+            "selection": "brush",
+            "type": "nominal"
+          },
+          "value": "lightgray"
+        },
+        "x": {
+          "axis": {
+            "title": "Year"
+          },
+          "field": "year",
+          "timeUnit": "year",
+          "type": "temporal"
+        },
+        "y": {
+          "axis": {
+            "title": "Fertility Rate"
+          },
+          "field": "Fertility",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              7
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "year",
+            "format": "%Y",
+            "type": "temporal"
+          },
+          {
+            "aggregate": "mean",
+            "field": "Fertility",
+            "type": "quantitative"
+          }
+        ]
+      },
+      "width": 800,
+      "height": 300,
+      "mark": {
+        "type": "line",
+        "point": true
+      },
+      "selection": {
+        "brush": {
+          "encodings": [
+            "x"
+          ],
+          "type": "interval"
+        }
+      },
+      "transform": [
+        {
+          "filter": {
+            "selection": "click"
+          }
+        }
+      ]
+    }
+  ],
+  "config": {}
+}

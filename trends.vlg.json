@@ -1,0 +1,104 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "description": "Visualising the trends over time by region",
+  "data": {
+    "url": "https://raw.githubusercontent.com/EmmanuelP89/DataVisualisation_CW2/master/gapminder.csv"
+  },
+  "hconcat": [
+    {
+      "mark": {
+        "type": "line"
+      },
+      "encoding": {
+        "x": {
+          "timeUnit": "year",
+          "field": "year",
+          "type": "temporal"
+        },
+        "y": {
+          "aggregate": "mean",
+          "field": "life",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              40,
+              80
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "year",
+            "format": "%Y",
+            "type": "temporal"
+          },
+          {
+            "field": "region",
+            "type": "nominal"
+          },
+          {
+            "aggregate": "mean",
+            "field": "gdp",
+            "type": "quantitative"
+          }
+        ],
+        "color": {
+          "field": "region",
+          "type": "nominal"
+        }
+      },
+      "width": 200,
+      "height": 200
+    },
+    {
+      "repeat": {
+        "column": [
+          "child_mortality",
+          "fertility",
+          "population"
+        ]
+      },
+      "spec": {
+        "mark": {
+          "type": "line"
+        },
+        "encoding": {
+          "x": {
+            "timeUnit": "year",
+            "field": "year",
+            "type": "temporal"
+          },
+          "y": {
+            "aggregate": "mean",
+            "field": {
+              "repeat": "column"
+            },
+            "type": "quantitative"
+          },
+          "tooltip": [
+            {
+              "field": "year",
+              "format": "%Y",
+              "type": "temporal"
+            },
+            {
+              "field": "region",
+              "type": "nominal"
+            },
+            {
+              "aggregate": "mean",
+              "field": "gdp",
+              "type": "quantitative"
+            }
+          ],
+          "color": {
+            "field": "region",
+            "type": "nominal"
+          }
+        },
+        "width": 200,
+        "height": 200
+      }
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "description": "Drag the sliders to highlight points.",
+  "data": {
+    "url": "https://raw.githubusercontent.com/EmmanuelP89/DataVisualisation_CW2/master/gapminder.csv"
+  },
+  "transform": [
+    {
+      "calculate": "year(datum.year)",
+      "as": "year"
+    },
+    {
+      "filter": {
+        "field": "life",
+        "gt": 20
+      }
+    },
+    {
+      "filter": {
+        "field": "gdp",
+        "lt": 150000
+      }
+    },
+    {
+      "filter": {
+        "field": "gdp",
+        "gt": 1000
+      }
+    }
+  ],
+  "layer": [
+    {
+      "selection": {
+        "CylYr": {
+          "type": "single",
+          "fields": [
+            "region",
+            "year"
+          ],
+          "init": {
+            "region": "America",
+            "year": 1964
+          },
+          "bind": {
+            "region": {
+              "input": "select",
+              "options": [
+                "America",
+                "East Asia & Pacific",
+                "Europe & Central Asia",
+                "Middle East & North Africa",
+                "South Asia",
+                "Sub-Saharan Africa"
+              ]
+            },
+            "year": {
+              "input": "range",
+              "min": 1965,
+              "max": 2012,
+              "step": 1
+            }
+          }
+        }
+      },
+      "mark": {
+        "type": "circle",
+        "opacity": 0.1
+      },
+      "encoding": {
+        "x": {
+          "field": "gdp",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "life",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              20,
+              90
+            ]
+          }
+        },
+        "color": {
+          "condition": {
+            "selection": "CylYr",
+            "field": "region",
+            "type": "nominal"
+          },
+          "value": "grey"
+        },
+        "tooltip": [
+          {
+            "field": "country",
+            "type": "ordinal"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": {
+            "selection": "CylYr"
+          }
+        }
+      ],
+      "mark": "circle",
+      "encoding": {
+        "x": {
+          "field": "gdp",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "life",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              20,
+              90
+            ]
+          }
+        },
+        "color": {
+          "field": "region",
+          "type": "nominal"
+        },
+        "size": {
+          "value": 150
+        },
+        "tooltip": [
+          {
+            "field": "country",
+            "type": "ordinal"
+          }
+        ]
+      }
+    }
+  ],
+  "width": 800,
+  "height": 300,
+  "config": {}
+}

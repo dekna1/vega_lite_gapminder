@@ -1,0 +1,287 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "title": "Life Expectancy & Child Mortality vs GDP, 1964-2012",
+  "data": {
+    "url": "https://raw.githubusercontent.com/EmmanuelP89/DataVisualisation_CW2/master/gapminder.csv"
+  },
+  "transform": [
+    {
+      "calculate": "year(datum.year)",
+      "as": "year"
+    }
+  ],
+  "vconcat": [
+    {
+      "selection": {
+        "Highlight": {
+          "type": "multi",
+          "fields": [
+            "region"
+          ]
+        },
+        "FilterByYr": {
+          "type": "single",
+          "fields": [
+            "year"
+          ],
+          "init": {
+            "year": 1964
+          },
+          "bind": {
+            "year": {
+              "input": "range",
+              "min": 1964,
+              "max": 2012,
+              "step": 1
+            }
+          }
+        }
+      },
+      "encoding": {
+        "color": {
+          "condition": {
+            "title": "Region",
+            "field": "region",
+            "scale": {
+              "range": [
+                "#ff6600",
+                "#00ff00",
+                "#e6e600",
+                "#1f77b4",
+                "#9467bd",
+                "#ff0000"
+              ]
+            },
+            "selection": "Highlight",
+            "type": "nominal"
+          },
+          "value": "lightgrey"
+        },
+        "x": {
+          "aggregate": "mean",
+          "field": "gdp",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              40000
+            ]
+          }
+        },
+        "y": {
+          "title": "GDP",
+          "field": "region",
+          "type": "nominal",
+          "sort": "-x"
+        },
+        "tooltip": [
+          {
+            "field": "region",
+            "type": "nominal"
+          },
+          {
+            "aggregate": "mean",
+            "field": "gdp",
+            "type": "quantitative"
+          }
+        ]
+      },
+      "width": 900,
+      "mark": {
+        "type": "bar",
+        "tooltip": true
+      },
+      "transform": [
+        {
+          "filter": {
+            "selection": "FilterByYr"
+          }
+        }
+      ]
+    },
+    {
+      "encoding": {
+        "color": {
+          "condition": {
+            "title": "Region",
+            "field": "region",
+            "scale": {
+              "range": [
+                "#ff6600",
+                "#00ff00",
+                "#e6e600",
+                "#1f77b4",
+                "#9467bd",
+                "#ff0000"
+              ]
+            },
+            "selection": "Highlight",
+            "type": "nominal"
+          },
+          "value": "#e6e6e6"
+        },
+        "size": {
+          "field": "population",
+          "type": "quantitative",
+          "scale": {
+        "type": "threshold",
+        "domain": [100000, 250000, 500000, 750000,
+        1000000, 1250000, 5000000, 7500000, 10000000,
+        12500000, 50000000, 75000000, 100000000]
+      }
+        },
+        "x": {
+          "title": "Gross Domestic Product",
+          "field": "gdp",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              200000
+            ]
+          }
+        },
+        "y": {
+          "axis": {
+            "title": "Life Expectancy"
+          },
+          "aggregate": "mean",
+          "field": "life",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              90
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "country",
+            "type": "nominal"
+          },
+          {
+            "field": "population",
+            "type": "quantitative"
+          },
+          {
+            "field": "life",
+            "type": "quantitative"
+          }
+        ]
+      },
+      "width": 900,
+      "height": 250,
+      "mark": {
+        "type": "circle",
+        "opacity": 0.5
+      },
+      "selection": {
+        "brush": {
+          "encodings": [
+            "x"
+          ],
+          "type": "interval"
+        }
+      },
+      "transform": [
+        {
+          "filter": {
+            "selection": "FilterByYr"
+          }
+        }
+      ]
+    },
+    {
+      "encoding": {
+        "color": {
+          "condition": {
+            "title": "Region",
+            "field": "region",
+            "scale": {
+              "range": [
+                "#ff6600",
+                "#00ff00",
+                "#e6e600",
+                "#1f77b4",
+                "#9467bd",
+                "#ff0000"
+              ]
+            },
+            "selection": "Highlight",
+            "type": "nominal"
+          },
+          "value": "lightgrey"
+        },
+        "size": {
+          "field": "population",
+          "type": "quantitative",
+          "scale": {
+        "type": "quantile"
+      }
+        },
+        "x": {
+          "title": "Gross Domestic Product",
+          "field": "gdp",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              200000
+            ]
+          }
+        },
+        "y": {
+          "axis": {
+            "title": "child_mortality"
+          },
+          "aggregate": "mean",
+          "field": "child_mortality",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              450
+            ]
+          }
+        },
+        "tooltip": [
+                    {
+            "field": "country",
+            "type": "nominal"
+          },
+          {
+            "field": "population",
+            "type": "quantitative"
+          },
+          {
+            "field": "child_mortality",
+            "type": "quantitative"
+          }
+        ]
+      },
+      "width": 900,
+      "height": 250,
+      "mark": {
+        "type": "circle",
+        "opacity": 0.5
+      },
+      "selection": {
+        "brush": {
+          "encodings": [
+            "x"
+          ],
+          "type": "interval"
+        }
+      },
+      "transform": [
+        {
+          "filter": {
+            "selection": "FilterByYr"
+          }
+        }
+      ]
+    }
+  ],
+  "config": {}
+}
